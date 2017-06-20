@@ -1,0 +1,34 @@
+-- Loading student data set---
+
+student = LOAD 'student_dataset.txt' USING PigStorage(',') AS (name:chararray, college:chararray, dob:chararray, stream:chararray, grade:float, 
+state:chararrray, city:chararray);
+
+Q1. Find the number of students who scored less than 5(50%).
+
+score = FILTER student BY grade < 5;
+dump score;
+grp = GROUP score ALL;
+cnt = FOREACH grp GENERATE COUNT(student.name); 
+
+Q2. List the name of students who are from Alaska.
+
+filter_data = FILTER student BY city == 'alaska';
+dump filter_data;
+
+Q3.How many government collages are there in Alabama?
+
+filter_data = FILTER student BY city == 'alaska';
+grp_data = GROUP filter_data BY student.college;
+count_data = FOREACH grp_data {data = FILTER count_data BY city == 'alabama' AND college = 'goverenment'; GENERATE COUNT(data);};
+dump count_data;
+
+Q4.List the name of students who are from Oregon and persuing BE.
+
+filter_data = FILTER student BY city == 'Oregon' AND stream == 'BE';
+dump = filter_data;
+
+
+
+
+
+ 
